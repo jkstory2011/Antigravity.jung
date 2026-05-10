@@ -1,0 +1,34 @@
+version: "2"
+
+linters:
+  default: none
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+  settings:
+    errcheck:
+      exclude-functions:
+        # CLI output — writing to stdout/stderr; errors are unrecoverable.
+        - fmt.Fprint
+        - fmt.Fprintf
+        - fmt.Fprintln
+        - fmt.Print
+        - fmt.Printf
+        - fmt.Println
+        # io.Closer in defer — error is logged or irrelevant.
+        - (*os.File).Close
+        - (io.Closer).Close
+        - (*net/http.Response).Body.Close
+    staticcheck:
+      checks:
+        - "all"
+        - "-QF*"    # disable quickfix suggestions — style, not correctness
+        - "-ST1*"   # style checks — not enforced (Korean doc comments)
+
+formatters:
+  enable:
+    - gofmt
+    - goimports

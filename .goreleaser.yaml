@@ -1,0 +1,79 @@
+version: 2
+project_name: autopus-adk
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: auto
+    binary: auto
+    main: ./cmd/auto
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X github.com/insajin/autopus-adk/pkg/version.version={{.Version}}
+      - -X github.com/insajin/autopus-adk/pkg/version.commit={{.ShortCommit}}
+      - -X github.com/insajin/autopus-adk/pkg/version.date={{.Date}}
+
+archives:
+  - id: auto
+    ids:
+      - auto
+    formats:
+      - tar.gz
+    format_overrides:
+      - goos: windows
+        formats:
+          - zip
+          - tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+release:
+  replace_existing_artifacts: true
+
+checksum:
+  name_template: 'checksums.txt'
+
+signs:
+  - cmd: cosign
+    artifacts: checksum
+    args:
+      - "sign-blob"
+      - "--yes"
+      - "--bundle=${signature}"
+      - "${artifact}"
+    signature: "${artifact}.bundle"
+    output: true
+    env:
+      - COSIGN_EXPERIMENTAL=1
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^ci:'
+
+# brews:
+#   - ids:
+#       - auto
+#     repository:
+#       owner: insajin
+#       name: homebrew-autopus
+#     homepage: "https://github.com/insajin/autopus-adk"
+#     description: "Agentic Development Kit for coding CLIs"
+#     license: "MIT"
+#     install: |
+#       bin.install "auto"
+#     test: |
+#       system "#{bin}/auto", "version"
