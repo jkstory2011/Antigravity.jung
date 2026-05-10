@@ -1,0 +1,35 @@
+{
+  "_migrated": true,
+  "_migrated_v2": true,
+  "secretary": {
+    "activatedAt": "2026-05-10T07:31:07.721Z",
+    "seeded": true
+  },
+  "youtube": {
+    "activatedAt": "2026-05-10T07:31:07.721Z",
+    "seeded": true
+  },
+  "writer": {
+    "activatedAt": "2026-05-10T07:31:07.721Z",
+    "seeded": true
+  },
+  "designer": {
+    "activatedAt": "2026-05-10T07:31:07.721Z",
+    "seeded": true
+  },
+  "instagram": {
+    "activatedAt": "2026-05-10T07:33:47.884Z"
+  },
+  "developer": {
+    "activatedAt": "2026-05-10T07:34:02.474Z"
+  },
+  "editor": {
+    "activatedAt": "2026-05-10T07:34:23.185Z"
+  },
+  "business": {
+    "activatedAt": "2026-05-10T07:34:32.512Z"
+  },
+  "researcher": {
+    "activatedAt": "2026-05-10T07:34:48.226Z"
+  }
+}
